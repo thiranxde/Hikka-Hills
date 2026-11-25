@@ -1,0 +1,111 @@
+@import 'tailwindcss';
+
+/* Design tokens, taken from the approved design (Hikka Hills.pdf). Components use these names, never hex values. */
+@theme {
+  --font-serif: 'Cormorant Garamond Variable', 'Cormorant Garamond', Georgia, serif;
+  --font-sans: 'Jost Variable', 'Jost', ui-sans-serif, system-ui, sans-serif;
+
+  /* Greens: the hero and footer (950), the experience and booking bands (900), photo tiles (700, 600). */
+  --color-forest-975: #121915;
+  --color-forest-950: #17201b;
+  --color-forest-925: #1c2722;
+  --color-forest-900: #263a31;
+  --color-forest-700: #3f5649;
+  --color-forest-600: #50685a;
+  --color-forest-400: #8a9c90;
+
+  /* Page backgrounds and earth tones. */
+  --color-cream: #f5f3ee;
+  --color-linen: #ede8de;
+  --color-sand-100: #e8e0d3;
+  --color-sand-200: #d9c9b2;
+  --color-sand-300: #cfc1ac;
+  --color-sand-400: #c0ad94;
+  --color-sand-500: #b59f80;
+  --color-umber: #6b5e48;
+  --color-map: #ddd4c2;
+  --color-brass: #b9a27a;
+
+  --color-charcoal: #252525;
+  --color-ink: #22241f;
+  --color-ink-soft: #45473f;
+  --color-muted: #6b6d66;
+  --color-line: #d9d4c9;
+
+  --color-error: #a2513b;
+
+  --tracking-label: 0.22em;
+  --tracking-wordmark: 0.32em;
+
+  --animate-rise-in: rise-in 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+  --animate-fade-in: fade-in 0.35s ease-out both;
+
+  @keyframes rise-in {
+    from {
+      opacity: 0;
+      transform: translate3d(0, 24px, 0);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+}
+
+/* The page width and side margins every section shares. */
+@utility shell {
+  width: 100%;
+  max-width: 1240px;
+  margin-inline: auto;
+  padding-inline: 1.5rem;
+  @media (width >= 40rem) {
+    padding-inline: 2.5rem;
+  }
+  @media (width >= 64rem) {
+    padding-inline: 5rem;
+  }
+  @media (width >= 80rem) {
+    padding-inline: 2.5rem;
+  }
+}
+
+@layer base {
+  /* Sections take focus after a menu jump (app/Root.tsx); they need no ring. */
+  [tabindex='-1']:focus {
+    outline: none;
+  }
+  html {
+    /* Room for the fixed header when a link jumps to a section. */
+    scroll-padding-top: 5rem;
+    -webkit-text-size-adjust: 100%;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+  body {
+    @apply bg-cream font-sans text-ink antialiased;
+    font-weight: 350;
+  }
+  ::selection {
+    @apply bg-sand-200 text-ink;
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-brass);
+    outline-offset: 3px;
+  }
+  /* The date picker icon follows the field's text colour. */
+  input[type='date']::-webkit-calendar-picker-indicator {
+    opacity: 0.7;
+    cursor: pointer;
+  }
+}

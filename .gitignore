@@ -1,0 +1,31 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Album originals and raw API answers (re-made by npm run media:fetch). The web copies in public/media are kept.
+media/originals
+# Full-resolution photos and videos from the owner, before npm run media:prepare makes the web copies.
+media/source
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.sw?
+
+# Playwright
+test-results
+playwright-report
+blob-report
+playwright/.cache
+
+# Env
+.env

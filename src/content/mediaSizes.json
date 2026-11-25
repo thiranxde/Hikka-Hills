@@ -1,0 +1,202 @@
+{
+  "photos": {
+    "cottage-dusk": {
+      "width": 960,
+      "height": 1280
+    },
+    "cottage-porch": {
+      "width": 1280,
+      "height": 960
+    },
+    "veranda-fretwork": {
+      "width": 1280,
+      "height": 854
+    },
+    "veranda-bench": {
+      "width": 854,
+      "height": 1280
+    },
+    "veranda-windows": {
+      "width": 1280,
+      "height": 854
+    },
+    "veranda-plant": {
+      "width": 854,
+      "height": 1280
+    },
+    "veranda-pillar": {
+      "width": 854,
+      "height": 1280
+    },
+    "front-doors": {
+      "width": 854,
+      "height": 1280
+    },
+    "garden-sculpture": {
+      "width": 960,
+      "height": 1280
+    },
+    "living-garden-view": {
+      "width": 1280,
+      "height": 960
+    },
+    "living-chairs": {
+      "width": 854,
+      "height": 1280
+    },
+    "living-room": {
+      "width": 1280,
+      "height": 854
+    },
+    "sitting-room": {
+      "width": 1280,
+      "height": 854
+    },
+    "lounge": {
+      "width": 1280,
+      "height": 854
+    },
+    "planters-chair": {
+      "width": 854,
+      "height": 1280
+    },
+    "lamp-corner": {
+      "width": 854,
+      "height": 1280
+    },
+    "artwork": {
+      "width": 854,
+      "height": 1280
+    },
+    "dining-room": {
+      "width": 1280,
+      "height": 854
+    },
+    "dining-table": {
+      "width": 854,
+      "height": 1280
+    },
+    "dining-long": {
+      "width": 854,
+      "height": 1280
+    },
+    "kitchen": {
+      "width": 1280,
+      "height": 854
+    },
+    "bedroom-art": {
+      "width": 960,
+      "height": 1280
+    },
+    "bedroom-doorway": {
+      "width": 960,
+      "height": 1280
+    },
+    "bedroom-pillows": {
+      "width": 960,
+      "height": 1280
+    },
+    "bedroom-centred": {
+      "width": 854,
+      "height": 1280
+    },
+    "bedroom-window": {
+      "width": 960,
+      "height": 1280
+    },
+    "bedroom-desk": {
+      "width": 960,
+      "height": 1280
+    },
+    "bedroom-single": {
+      "width": 960,
+      "height": 1280
+    },
+    "bedroom-wide": {
+      "width": 1280,
+      "height": 854
+    },
+    "bedroom-bright": {
+      "width": 1280,
+      "height": 854
+    },
+    "bedroom-two-beds": {
+      "width": 854,
+      "height": 1280
+    },
+    "bathroom-tiled": {
+      "width": 960,
+      "height": 1280
+    },
+    "bathroom-basin": {
+      "width": 854,
+      "height": 1280
+    },
+    "house-front": {
+      "width": 1080,
+      "height": 1920
+    },
+    "veranda-chairs": {
+      "width": 1080,
+      "height": 1920
+    },
+    "veranda-garden": {
+      "width": 1080,
+      "height": 1920
+    },
+    "veranda-plants": {
+      "width": 1080,
+      "height": 1920
+    },
+    "garden-fountain": {
+      "width": 1080,
+      "height": 1920
+    },
+    "garden-lawn": {
+      "width": 1080,
+      "height": 1920
+    },
+    "garden-trees": {
+      "width": 1080,
+      "height": 1920
+    },
+    "mango-tree": {
+      "width": 1080,
+      "height": 1920
+    },
+    "fields-palms": {
+      "width": 1080,
+      "height": 1920
+    },
+    "fields-lane": {
+      "width": 1080,
+      "height": 1920
+    }
+  },
+  "videos": {
+    "hero": {
+      "width": 720,
+      "height": 1280
+    },
+    "walk-veranda": {
+      "width": 720,
+      "height": 1280
+    },
+    "walk-garden": {
+      "width": 720,
+      "height": 1280
+    },
+    "walk-living": {
+      "width": 720,
+      "height": 1280
+    },
+    "walk-bedroom": {
+      "width": 720,
+      "height": 1280
+    },
+    "walk-fields": {
+      "width": 720,
+      "height": 1280
+    }
+  }
+}
