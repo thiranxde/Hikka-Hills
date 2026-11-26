@@ -39,10 +39,17 @@ export const site = {
     /** The most guests one enquiry may ask for, until the villa's real capacity is confirmed. */
     maxGuests: 12,
     /**
-     * Where a finished enquiry goes: "whatsapp" opens WhatsApp with the enquiry typed out (needs contact.whatsapp),
-     * "email" opens the visitor's mail app (needs contact.email). With "none" the form checks the details and says
-     * that enquiries are not connected yet. See features/booking/lib/submitEnquiry.ts.
+     * Where a finished enquiry goes: "api" posts it to the backend (backend/, Laravel), which emails the owner and a
+     * copy to the guest; "whatsapp" opens WhatsApp with the enquiry typed out (needs contact.whatsapp); "email" opens
+     * the visitor's mail app (needs contact.email). With "none" the form checks the details and says that enquiries
+     * are not connected yet. See features/booking/lib/submitEnquiry.ts.
      */
-    channel: 'none' as 'whatsapp' | 'email' | 'none',
+    channel: 'api' as 'api' | 'whatsapp' | 'email' | 'none',
+    /**
+     * The backend's enquiry address. VITE_API_URL (in .env.local, or the host's build settings) is the backend's
+     * address when it lives elsewhere, e.g. "https://api.hikkahills.lk"; left empty, the site calls its own /api,
+     * which the dev server forwards to the backend (vite.config.ts).
+     */
+    endpoint: `${(import.meta.env.VITE_API_URL ?? '').replace(/\/$/, '')}/api/enquiries`,
   },
 }

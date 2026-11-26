@@ -6,13 +6,18 @@ import { cn } from '@/lib/cn'
 import { emptyEnquiry, nextDay, nights, todayIso, validateEnquiry, type Enquiry, type EnquiryErrors, type EnquiryField } from '../lib/enquiry'
 import { submitEnquiry, type EnquiryResult } from '../lib/submitEnquiry'
 
-/** The enquiry form on the cream card. Checks each field in the browser, then hands the enquiry to submitEnquiry(). */
+/**
+ * The enquiry form on the cream card. Checks each field in the browser, then hands the enquiry to submitEnquiry().
+ * If the backend finds something else to fix, its message shows under the field; if the enquiry could not be sent,
+ * an alert says so and the form keeps what was typed.
+ */
 export function EnquiryForm() {
   const [values, setValues] = useState<Enquiry>(emptyEnquiry)
   const [errors, setErrors] = useState<EnquiryErrors>({})
   const [tried, setTried] = useState(false)
   const [sending, setSending] = useState(false)
-  const [result, setResult] = useState<EnquiryResult | null>(null)
+  const [result, setResult] = useState<Outcome | null>(null)
+  const [failure, setFailure] = useState<string | null>(null)
   const today = todayIso()
 
   const set = (field: EnquiryField, value: string) => {
@@ -27,14 +32,21 @@ export function EnquiryForm() {
     setTried(true)
     const found = validateEnquiry(values, today)
     setErrors(found)
-    const firstBad = Object.keys(found)[0]
-    if (firstBad) {
-      document.getElementById(`enquiry-${firstBad}`)?.focus()
-      return
-    }
+    if (focusFirst(found)) return
+
+    const website = new FormData(e.currentTarget).get('website')
+    setFailure(null)
     setSending(true)
     try {
-      setResult(await submitEnquiry(values))
+      const answer = await submitEnquiry(values, { website: typeof website === 'string' ? website : '' })
+      if (answer.status === 'invalid') {
+        setErrors(answer.errors)
+        focusFirst(answer.errors)
+      } else if (answer.status === 'failed') {
+        setFailure(answer.message)
+      } else {
+        setResult(answer)
+      }
     } finally {
       setSending(false)
     }
@@ -96,13 +108,33 @@ export function EnquiryForm() {
         )}
       </Field>
 
+      {/* Only bots fill this in: hidden from view, from screen readers and from the Tab key. */}
+      <div aria-hidden="true" className="sr-only">
+        <label>
+          Leave this empty
+          <input type="text" name="website" tabIndex={-1} autoComplete="off" defaultValue="" />
+        </label>
+      </div>
+
       <div className="sm:col-span-2">
+        {failure && (
+          <p role="alert" className="mb-6 border-l-2 border-error pl-4 text-sm leading-relaxed text-error">
+            {failure}
+          </p>
+        )}
         <Button type="submit" variant="forest" disabled={sending} className="w-full px-8 py-5 sm:w-auto sm:py-4">
           {sending ? 'Sending…' : 'Submit enquiry'}
         </Button>
       </div>
     </form>
   )
+}
+
+/** Focuses the first field with a problem. Returns whether there was one. */
+function focusFirst(errors: EnquiryErrors): boolean {
+  const first = Object.keys(errors)[0]
+  if (first) document.getElementById(`enquiry-${first}`)?.focus()
+  return Boolean(first)
 }
 
 interface ControlProps {
@@ -154,15 +186,25 @@ function Field({ label, field, error, hint, wide, optional, children }: FieldPro
   )
 }
 
-function Sent({ result, enquiry, onEdit }: { result: EnquiryResult; enquiry: Enquiry; onEdit: () => void }) {
+type Outcome = Exclude<EnquiryResult, { status: 'invalid' } | { status: 'failed' }>
+
+function Sent({ result, enquiry, onEdit }: { result: Outcome; enquiry: Enquiry; onEdit: () => void }) {
   const first = enquiry.name.trim().split(/\s+/)[0]
   return (
     <div role="status" className="py-4">
       <p className="text-[0.64rem] uppercase tracking-label text-ink-soft">Thank you</p>
       <h3 className="mt-4 font-serif text-4xl font-light leading-tight">
-        {result.status === 'handed-off' ? `Almost there, ${first}.` : `Your enquiry is ready, ${first}.`}
+        {result.status === 'sent' && `Thank you, ${first}.`}
+        {result.status === 'handed-off' && `Almost there, ${first}.`}
+        {result.status === 'not-connected' && `Your enquiry is ready, ${first}.`}
       </h3>
       <p className="mt-5 max-w-sm text-sm leading-relaxed text-ink-soft">
+        {result.status === 'sent' && (
+          <>
+            Your enquiry has been sent. We will reply personally with availability and rates.
+            {result.copySent && ` A copy is on its way to ${enquiry.email.trim()}.`}
+          </>
+        )}
         {result.status === 'handed-off' && result.channel === 'whatsapp' && 'WhatsApp has opened with your enquiry typed out. Press send there and we will reply personally.'}
         {result.status === 'handed-off' && result.channel === 'email' && 'Your email app has opened with your enquiry. Press send there and we will reply personally.'}
         {result.status === 'not-connected' && (
@@ -178,6 +220,12 @@ function Sent({ result, enquiry, onEdit }: { result: EnquiryResult; enquiry: Enq
         <dd>{enquiry.checkOut}</dd>
         <dt className="text-muted">Guests</dt>
         <dd>{enquiry.guests}</dd>
+        {result.status === 'sent' && result.reference && (
+          <>
+            <dt className="text-muted">Reference</dt>
+            <dd>{result.reference}</dd>
+          </>
+        )}
       </dl>
       <Button variant="forest-outline" onClick={onEdit} className="mt-8">
         Change the details
