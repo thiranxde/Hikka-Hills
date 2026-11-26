@@ -5,11 +5,13 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:api": "php backend/artisan serve --host=127.0.0.1 --port=8000",
     "build": "tsc -b && vite build",
     "lint": "oxlint",
     "preview": "vite preview",
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
+    "test:api": "cd backend && php artisan test",
     "media:fetch": "node scripts/fetch-icloud-album.mjs",
     "media:prepare": "node scripts/prepare-media.mjs"
   },
